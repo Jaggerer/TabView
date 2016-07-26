@@ -15,16 +15,16 @@ import java.util.List;
  * Created by gan on 2016/7/25.
  */
 public class WeexTabLayout extends LinearLayout {
-    private TabView mTabView;
-    private View mLineView; //要加载的View
-    private LinearLayout mlltIndicator;
-    private float mWidth;
-    private LayoutParams mLp;
+    TabView mTabView;
+    View mLineView; //要加载的View
+    LinearLayout mlltIndicator;
+    float mWidth;
+    LayoutParams mLp;
     public static final int STOP = 0;
     public static final int MOVING = 1;
-    private int mStates = STOP;
-    private TabViewAnim mTabViewAnim;
-    private TabClickListener mTabClickListener;
+    int mStates = STOP;
+    TabViewAnim mTabViewAnim;
+    TabClickListener mTabClickListener;
 
     public WeexTabLayout(Context context) {
         this(context, null);
@@ -73,7 +73,9 @@ public class WeexTabLayout extends LinearLayout {
                     mTabViewAnim.setTabViewAnim(mLp.leftMargin, mWidth / 2 - mLineView.getWidth() / 2 + index *
                             mWidth, mLineView);
                 }
-                mTabClickListener.onTabClick(index);
+                if (mTabClickListener != null) {
+                    mTabClickListener.onTabClick(index);
+                }
             }
         });
     }

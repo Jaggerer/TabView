@@ -161,6 +161,9 @@ public class TabView extends View {
         return mTextList.size();
     }
 
+    public void setClickIndex(int index) {
+        clickIndex = index;
+    }
 
 }
 
