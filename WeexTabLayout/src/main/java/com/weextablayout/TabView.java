@@ -1,11 +1,9 @@
-package com.horustablayout;
+package com.weextablayout;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,9 +14,9 @@ import java.util.List;
 /**
  * Created by gan on 2016/7/25.
  */
-public class MyTabLayout extends View {
+public class TabView extends View {
 
-    private List<String> mTextList;
+    private List<String> mTextList = new ArrayList<>();
 
     private Paint mBackGroudPaint;
     private Paint mTextPaint;
@@ -32,22 +30,22 @@ public class MyTabLayout extends View {
 
     private int mWidth;
     private int mHeight;
+
     private float mCellWidth;
-    private int currentIndex = 0; //当前的item，默认为0；
     private int clickIndex = 0; //点击的item，默认为0
     private OnItemClickListener onItemClickListener;
 
 
-    public MyTabLayout(Context context) {
+    public TabView(Context context) {
         this(context, null);
     }
 
 
-    public MyTabLayout(Context context, AttributeSet attrs) {
+    public TabView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MyTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TabView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initPaint();
         initView();
@@ -66,7 +64,9 @@ public class MyTabLayout extends View {
     }
 
     private void initView() {
-        mTextList = new ArrayList<>();
+        mWidth = getResources().getDisplayMetrics().widthPixels;
+//        mHeight = 80;
+
         mTextList.add("tab1");
         mTextList.add("tab2");
         mTextList.add("tab3");
@@ -75,26 +75,23 @@ public class MyTabLayout extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mWidth = getResources().getDisplayMetrics().widthPixels;
-        mHeight = 80;
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec(mWidth,
-                MeasureSpec.EXACTLY);
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(mHeight,
-                MeasureSpec.EXACTLY);
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+        mHeight = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(mWidth, mHeight);
     }
+
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mCellWidth = mWidth / mTextList.size();
         drawBackgroud(canvas, mBackgroudGray);
         for (int i = 0; i < mTextList.size(); i++) {
             drawText(canvas, i, mTextList.get(i), mTextColor);
         }
+        drawClickedText(canvas, clickIndex, mTextList.get(clickIndex), mTextSelectedColor);
     }
 
     /**
@@ -120,24 +117,11 @@ public class MyTabLayout extends View {
      * 画出选中的背景和文字
      */
     //如果是第一个item，则index传0
-    private void drawClickedCell(Canvas canvas, int index, int selectColor, String text, int textColor) {
+    private void drawClickedText(Canvas canvas, int index, String text, int textColor) {
         mTextPaint.setColor(textColor);
         drawText(canvas, index, text, textColor);
-        drawTriangle(canvas, index, selectColor);
     }
 
-
-    /**
-     * 画出三角形
-     */
-    private void drawTriangle(final Canvas canvas, final int index, int selectColor) {
-        Path path = new Path(); //三角形
-        path.moveTo(index * mCellWidth + mCellWidth / 2, mHeight - 10);
-        path.lineTo(index * mCellWidth + mCellWidth / 2 + 10, mHeight);
-        path.lineTo(index * mCellWidth + mCellWidth / 2 - 10, mHeight);
-        mSelectCellPaint.setColor(selectColor);
-        canvas.drawPath(path, mSelectCellPaint);
-    }
 
 
     @Override
@@ -156,7 +140,6 @@ public class MyTabLayout extends View {
     }
 
     private void getClickItem(float x, float y) {
-        currentIndex = clickIndex;
         //如果点击了第一个item，那么返回的是0
         clickIndex = (int) Math.floor(x / mCellWidth);
         invalidate();
@@ -174,20 +157,17 @@ public class MyTabLayout extends View {
     public void setTextList(List<String> textList) {
         mTextList.clear();
         mTextList.addAll(textList);
+        mCellWidth = mWidth / mTextList.size();
         invalidate();
     }
 
-    public int getClickIndex() {
-        return clickIndex;
-    }
+
 
     public int getCount() {
         return mTextList.size();
     }
 
-    public float getmWidth() {
-        return mCellWidth;
-    }
+
 }
 
 

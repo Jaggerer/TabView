@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="WeexTabLayout">
+
+
+        <attr name="text_color" format="color"/>
+        <attr name="text_selected_color" format="color"/>
+        <attr name="backgroud_color" format="color"/>
+        <attr name="backgroud_selected_color" format="color"/>
+
+    </declare-styleable>
+</resources>

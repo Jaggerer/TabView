@@ -1,20 +1,19 @@
-package com.horustablayout;
+package com.weextablayout;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import java.util.List;
 
 /**
  * Created by gan on 2016/7/25.
  */
-public class TabView extends LinearLayout {
-    private MyTabLayout mMyTabLayout;
+public class WeexTabLayout extends LinearLayout {
+    private TabView mTabView;
     private View mLineView; //要加载的View
     private LinearLayout mlltIndicator;
     private float mWidth;
@@ -24,16 +23,16 @@ public class TabView extends LinearLayout {
     private int mStates = STOP;
     private TabViewAnim mTabViewAnim;
 
-    public TabView(Context context) {
+    public WeexTabLayout(Context context) {
         this(context, null);
 
     }
 
-    public TabView(Context context, AttributeSet attrs) {
+    public WeexTabLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TabView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public WeexTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
@@ -41,10 +40,9 @@ public class TabView extends LinearLayout {
     private void initView() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.tab_view, this);
-        mMyTabLayout = (MyTabLayout) findViewById(R.id.view_mytb);
+        mTabView = (TabView) findViewById(R.id.view_mytb);
         mlltIndicator = (LinearLayout) findViewById(R.id.lyt_line);
-        mWidth = getResources().getDisplayMetrics().widthPixels / mMyTabLayout.getCount();
-        mMyTabLayout.setOnItemClickListener(new MyTabLayout.OnItemClickListener() {
+        mTabView.setOnItemClickListener(new TabView.OnItemClickListener() {
             @Override
             public void onItemClick(int index) {
                 if (mTabViewAnim == null) {
@@ -61,7 +59,7 @@ public class TabView extends LinearLayout {
         final float endValue = mWidth / 2 - mLineView.getWidth() / 2 + index * mWidth;
         final ValueAnimator anim = ValueAnimator.ofFloat(mLp.leftMargin, endValue);
 
-        anim.setDuration(300);
+        anim.setDuration(150);
 
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -96,6 +94,12 @@ public class TabView extends LinearLayout {
         mlltIndicator.addView(mLineView);
         invalidate();
     }
+
+    public void setTextList(List<String> list) {
+        mTabView.setTextList(list);
+        mWidth = getResources().getDisplayMetrics().widthPixels / mTabView.getCount();
+    }
+
 
     public void setTabViewAnim(TabViewAnim tabViewAnim) {
         mTabViewAnim = tabViewAnim;
