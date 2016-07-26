@@ -126,10 +126,6 @@ public class MyTabLayout extends View {
         drawTriangle(canvas, index, selectColor);
     }
 
-    private void drawBitmap(Canvas canvas, int index, Bitmap bitmap) {
-        canvas.drawBitmap(bitmap, index * mCellWidth + mCellWidth / 2 - 10, mHeight - 20, null);
-    }
-
 
     /**
      * 画出三角形
