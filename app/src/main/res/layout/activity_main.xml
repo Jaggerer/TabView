@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <com.weextablayout.WeexTabLayout
     android:id="@+id/tv_view"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    app:text_color="@color/colorPrimary"
+    app:text_selected_color="#ffffff"
+    app:backgroud_color="@color/colorAccent"
+    app:text_size="12sp"
+    android:layout_height="50dp">
 
 </com.weextablayout.WeexTabLayout>
 </RelativeLayout>

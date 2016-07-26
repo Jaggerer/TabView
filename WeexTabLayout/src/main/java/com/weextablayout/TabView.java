@@ -20,13 +20,11 @@ public class TabView extends View {
 
     private Paint mBackGroudPaint;
     private Paint mTextPaint;
-    private Paint mSelectCellPaint;
 
     public int mTextSelectedColor = Color.parseColor("#00FF00"); //选中的文字颜色
-
-
-    public int mBackgroudGray = (Color.parseColor("#1E2124")); //背景灰色
-    public int mTextColor = (Color.parseColor("#DCDCDC")); //背景灰色
+    public int mBackgroudColor = (Color.parseColor("#1E2124")); //背景灰色
+    public int mTextColor = (Color.parseColor("#DCDCDC")); //文字颜色
+    public float mTextSize;
 
     private int mWidth;
     private int mHeight;
@@ -34,7 +32,7 @@ public class TabView extends View {
     private float mCellWidth;
     private int clickIndex = 0; //点击的item，默认为0
     private OnItemClickListener onItemClickListener;
-
+    public boolean mClickable = true;
 
     public TabView(Context context) {
         this(context, null);
@@ -53,20 +51,13 @@ public class TabView extends View {
 
     private void initPaint() {
         mBackGroudPaint = new Paint();
-        mBackGroudPaint.setColor(mBackgroudGray);
         mTextPaint = new Paint();
-        mTextPaint.setAntiAlias(true);
-        mTextPaint.setColor(mTextColor);
-        mTextPaint.setTextSize(24);
-        mSelectCellPaint = new Paint();
 
 
     }
 
     private void initView() {
         mWidth = getResources().getDisplayMetrics().widthPixels;
-//        mHeight = 80;
-
         mTextList.add("tab1");
         mTextList.add("tab2");
         mTextList.add("tab3");
@@ -83,11 +74,10 @@ public class TabView extends View {
     }
 
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawBackgroud(canvas, mBackgroudGray);
+        drawBackgroud(canvas, mBackgroudColor);
         for (int i = 0; i < mTextList.size(); i++) {
             drawText(canvas, i, mTextList.get(i), mTextColor);
         }
@@ -107,6 +97,8 @@ public class TabView extends View {
      */
     //如果是第一个item，index传0
     private void drawText(Canvas canvas, int index, String text, int color) {
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setTextSize(mTextSize);
         mTextPaint.setColor(color);
         float cellX = mCellWidth * index + (mCellWidth - mTextPaint.measureText(text)) / 2;
         float cellY = ((canvas.getHeight() / 2) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2));
@@ -119,19 +111,22 @@ public class TabView extends View {
     //如果是第一个item，则index传0
     private void drawClickedText(Canvas canvas, int index, String text, int textColor) {
         mTextPaint.setColor(textColor);
+        mTextPaint.setTextSize(mTextSize);
         drawText(canvas, index, text, textColor);
     }
-
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                getClickItem(event.getX(), event.getY());
+                if (mClickable) {
+                    getClickItem(event.getX(), event.getY());
+                }
                 break;
             case MotionEvent.ACTION_UP:
-                if (onItemClickListener != null) {
+
+                if (onItemClickListener != null && mClickable) {
                     onItemClickListener.onItemClick(clickIndex);
                 }
                 break;
@@ -160,7 +155,6 @@ public class TabView extends View {
         mCellWidth = mWidth / mTextList.size();
         invalidate();
     }
-
 
 
     public int getCount() {

@@ -7,7 +7,7 @@
         <attr name="text_color" format="color"/>
         <attr name="text_selected_color" format="color"/>
         <attr name="backgroud_color" format="color"/>
-        <attr name="backgroud_selected_color" format="color"/>
+        <attr name="text_size" format="dimension"/>
 
     </declare-styleable>
 </resources>
