@@ -3,7 +3,9 @@ package com.horustablayout;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,12 +15,14 @@ import android.widget.LinearLayout;
  */
 public class TabView extends LinearLayout {
     private MyTabLayout mMyTabLayout;
-    private ImageView mIvIndicator;
+    private View mLineView; //要加载的View
+    private LinearLayout mlltIndicator;
     private float mWidth;
     private LayoutParams mLp;
-    private static final int STOP = 0;
-    private static final int MOVING = 1;
+    public static final int STOP = 0;
+    public static final int MOVING = 1;
     private int mStates = STOP;
+    private TabViewAnim mTabViewAnim;
 
     public TabView(Context context) {
         this(context, null);
@@ -38,45 +42,67 @@ public class TabView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.tab_view, this);
         mMyTabLayout = (MyTabLayout) findViewById(R.id.view_mytb);
-        mIvIndicator = (ImageView) findViewById(R.id.iv_indicator);
+        mlltIndicator = (LinearLayout) findViewById(R.id.lyt_line);
         mWidth = getResources().getDisplayMetrics().widthPixels / mMyTabLayout.getCount();
-        mIvIndicator.post(new Runnable() {
-            @Override
-            public void run() {
-                mLp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
-                        .WRAP_CONTENT);
-                mLp.leftMargin = (int) (mWidth / 2 - mIvIndicator.getWidth() / 2);
-                mIvIndicator.setLayoutParams(mLp);
-                invalidate();
-            }
-        });
-
-
         mMyTabLayout.setOnItemClickListener(new MyTabLayout.OnItemClickListener() {
             @Override
-            public void onItemClick(final int index) {
-                final float endValue = mWidth / 2 - mIvIndicator.getWidth() / 2 + index * mWidth;
-                final ValueAnimator anim = ValueAnimator.ofFloat(mLp.leftMargin, endValue);
-
-                anim.setDuration(300);
-
-                anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        mStates = MOVING;
-                        mLp.leftMargin = Math.round((Float) animation.getAnimatedValue());
-                        mIvIndicator.setLayoutParams(mLp);
-                        if ((Float) animation.getAnimatedValue() == endValue) {
-                            mStates = STOP;
-                        }
-                        invalidate();
-                    }
-                });
-                if (mStates == STOP) {
-                    anim.start();
+            public void onItemClick(int index) {
+                if (mTabViewAnim == null) {
+                    setDefaultAnim(index);
+                } else {
+                    mTabViewAnim.setTabViewAnim(mLp.leftMargin, mWidth / 2 - mLineView.getWidth() / 2 + index *
+                            mWidth, mLineView);
                 }
             }
         });
+    }
+
+    private void setDefaultAnim(int index) {
+        final float endValue = mWidth / 2 - mLineView.getWidth() / 2 + index * mWidth;
+        final ValueAnimator anim = ValueAnimator.ofFloat(mLp.leftMargin, endValue);
+
+        anim.setDuration(300);
+
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mStates = MOVING;
+                mLp.leftMargin = Math.round((Float) animation.getAnimatedValue());
+                mLineView.setLayoutParams(mLp);
+                if ((Float) animation.getAnimatedValue() == endValue) {
+                    mStates = STOP;
+                }
+                invalidate();
+            }
+        });
+        if (mStates == STOP) {
+            anim.start();
+        }
+    }
+
+    /**
+     * 传入要添加的view
+     */
+    public void addLineView(View lineView) {
+        this.mLineView = lineView;
+        initLineView();
+    }
+
+
+    private void initLineView() {
+        mLp = (LayoutParams) mLineView.getLayoutParams();
+        mLp.leftMargin = (int) (mWidth / 2 - mLp.width / 2);
+        mLineView.setLayoutParams(mLp);
+        mlltIndicator.addView(mLineView);
+        invalidate();
+    }
+
+    public void setTabViewAnim(TabViewAnim tabViewAnim) {
+        mTabViewAnim = tabViewAnim;
+    }
+
+    public interface TabViewAnim {
+        void setTabViewAnim(float startValue, float endValue, View view);
     }
 
 
