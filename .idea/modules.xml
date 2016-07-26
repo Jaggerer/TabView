@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HorusTabLayout.iml" filepath="$PROJECT_DIR$/HorusTabLayout.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TabView.iml" filepath="$PROJECT_DIR$/TabView.iml" />
       <module fileurl="file://$PROJECT_DIR$/WeexTabLayout/WeexTabLayout.iml" filepath="$PROJECT_DIR$/WeexTabLayout/WeexTabLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

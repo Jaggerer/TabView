@@ -1,4 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.wallstreetcn.weex' // Change this to match your package name
+version = '1.0.0' // Change this to match your version number
 
 android {
     compileSdkVersion 23
@@ -22,4 +27,52 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
+}
+
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+task generateJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath()
+            .join(File.pathSeparator))
+}
+
+task generateJavadocsJar(type: Jar) {
+    from generateJavadocs.destinationDir
+    classifier 'javadoc'
+}
+
+artifacts {
+//    archives generateJavaDocsJar
+    archives generateSourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.key")
+    pkg {
+        repo = 'maven'
+        name = 'WeexTabLayout'
+        desc = "tabLayout"
+
+        version {
+            name = '1.0.0'
+            desc = 'tabLayout.'
+            vcsTag = 'android, view'
+        }
+
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/Hentaii/TabView.git'
+        websiteUrl = 'https://github.com/Hentaii/TabView'
+
+        labels = ['android']
+        publish = true
+        publicDownloadNumbers = true
+    }
+    configurations = ['archives']
 }
