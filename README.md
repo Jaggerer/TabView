@@ -4,7 +4,7 @@
 
 ##Attributes
 
----------
+
 | Attributes    |     format|   description|
 | :-------- | --------:| :------: |
 | text_color|   color| set tab text color |
@@ -14,7 +14,7 @@
 
 ##Import
 
----------
+
 Step 1. Add it in your project's build.gradle at the end of repositories:
 
 ```
@@ -35,7 +35,6 @@ dependencies {
 
 ##Usage
 
---------
 Define your WeexTabLayout under your xml :
 ```
 <com.weextablayout.WeexTabLayout
