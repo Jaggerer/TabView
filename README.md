@@ -27,7 +27,7 @@ include WeexTabLayout and WeexVpTabLayout
 
 ```
 dependencies {
-  compile 'com.wallstreetcn.weex:WeexTabLayout:1.0.1'
+  compile 'com.wallstreetcn.weex:WeexTabLayout:1.1.0'
 }
 ```
 
