@@ -23,18 +23,7 @@ include WeexTabLayout and WeexVpTabLayout
 
 ##Import
 
-
-Step 1. Add it in your project's build.gradle at the end of repositories:
-
-```
-repositories {
-    maven {
-            url 'https://dl.bintray.com/hentaii/maven'
-    }
-}
-```
-
-Step 2. Add the dependency:
+ Add the dependency:
 
 ```
 dependencies {
