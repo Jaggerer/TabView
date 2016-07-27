@@ -1,6 +1,15 @@
 #WeexTabLayout
+include WeexTabLayout and WeexVpTabLayout
 ##DEMO
-![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/1.gif?raw=true)
+
+- WeexTabLayout
+
+![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/show.gif?raw=true)
+
+- WeexVpTabLayout
+ 
+
+![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/vpdemo.gif?raw=true)
 
 ##Attributes
 
@@ -34,6 +43,8 @@ dependencies {
 ```
 
 ##Usage
+
+- usage of WeexTabLayout
 
 Define your WeexTabLayout under your xml :
 ```
@@ -95,4 +106,24 @@ you can also set your own animator :
             }
         });
 ```
+
+- usage of WeexVpTabLayout
+ 
+setViewPager on WeexVpLayout
+
+```
+mTlVp.setViewPager(mViewPager);
+```
+
+setOnTabClickListener to switch page
+
+```
+mTlVp.setOnTabClickListener(new WeexTabLayout.TabClickListener() {
+            @Override
+            public void onTabClick(int index) {
+                mViewPager.setCurrentItem(index);
+            }
+        });
+```
+
 
