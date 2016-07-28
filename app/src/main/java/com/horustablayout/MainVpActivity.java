@@ -46,13 +46,13 @@ public class MainVpActivity extends AppCompatActivity {
         mNameList.add("page2");
         mNameList.add("page3");
         mTlVp.setTextList(mNameList);
-        //设置indicator
-        ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.drawable.line);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(120, 20);
-        lp.gravity = Gravity.BOTTOM;
-        imageView.setLayoutParams(lp);
-        mTlVp.addLineView(imageView);
+//        //设置indicator
+//        ImageView imageView = new ImageView(this);
+//        imageView.setImageResource(R.drawable.line);
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(120, 20);
+//        lp.gravity = Gravity.BOTTOM;
+//        imageView.setLayoutParams(lp);
+//        mTlVp.addIndicator(imageView);
     }
 
     private void initViewPager() {
@@ -66,6 +66,7 @@ public class MainVpActivity extends AppCompatActivity {
         mViewList.add(view3);
 
         mTlVp.setViewPager(mViewPager);
+
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
             @Override
@@ -92,7 +93,6 @@ public class MainVpActivity extends AppCompatActivity {
                 return mViewList.get(position);
             }
         };
-
 
         mViewPager.setAdapter(pagerAdapter);
 

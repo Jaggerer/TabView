@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="horizontal">
 
-<com.weextablayout.WeexTabLayout
-    android:id="@+id/tv_view"
-    android:layout_width="match_parent"
-    app:text_color="@color/colorPrimary"
-    app:text_selected_color="#ffffff"
-    app:backgroud_color="@color/colorAccent"
-    app:text_size="12sp"
-    android:layout_height="50dp">
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        />
 
-</com.weextablayout.WeexTabLayout>
-</RelativeLayout>
+    <com.weextablayout.WeexTabLayout
+        android:id="@+id/tv_view"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="#987654"
+        app:backgroud_color="@color/colorAccent"
+        app:divider_color="#ffffff"
+        app:divider_padding="3dp"
+        app:divider_width="0.5dp"
+        app:padding_bottom="2dp"
+        app:text_color="@color/colorPrimary"
+        app:text_selected_color="#ffffff"
+        app:text_size="12sp"
+        app:underline_color="#000000"
+        app:underline_height="2dp">
+
+    </com.weextablayout.WeexTabLayout>
+</LinearLayout>

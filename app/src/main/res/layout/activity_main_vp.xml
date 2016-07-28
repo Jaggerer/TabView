@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.horustablayout.MainVpActivity">
 
     <com.weextablayout.WeexVpTabLayout
         android:id="@+id/tl_vp"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="#987654"
+        app:backgroud_color="@color/colorAccent"
+        app:divider_color="#ffffff"
+        app:divider_padding="3dp"
+        app:divider_width="0.5dp"
+        app:padding_bottom="2dp"
+        app:text_color="@color/colorPrimary"
+        app:text_selected_color="#ffffff"
         app:text_size="12sp"
-        android:layout_height="50dp"/>
+        app:underline_color="#000000"
+        app:underline_height="2dp"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_pager"

@@ -2,9 +2,6 @@ package com.horustablayout;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.weextablayout.WeexTabLayout;
@@ -22,12 +19,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mTbView = (WeexTabLayout) findViewById(R.id.tv_view);
 
-        //设置indicator
-        ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.drawable.line);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(120, 20);
-        lp.gravity = Gravity.BOTTOM;
-        imageView.setLayoutParams(lp);
+//        //设置indicator
+//        ImageView imageView = new ImageView(this);
+//        imageView.setImageResource(R.drawable.line);
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(120, 20);
+//        lp.gravity = Gravity.BOTTOM;
+//        imageView.setLayoutParams(lp);
 
         //设置tab名称的数组
         List<String> list = new ArrayList<>();
@@ -37,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         list.add("4");
         mTbView.setTextList(list);
 
-        //添加indicator
-        mTbView.addLineView(imageView);
+//        添加indicator
+//        mTbView.addIndicator(imageView);
 
         mTbView.setOnTabClickListener(new WeexTabLayout.TabClickListener() {
             @Override

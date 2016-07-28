@@ -1,6 +1,7 @@
 package com.weextablayout;
 
 import android.content.Context;
+import android.view.WindowManager;
 
 /**
  * Created by apple on 16/6/27.
@@ -42,5 +43,13 @@ public class ScreenUtil {
     public static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+
+
+        return wm.getDefaultDisplay().getWidth();
     }
 }

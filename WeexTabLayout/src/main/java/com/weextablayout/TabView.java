@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,16 +22,26 @@ public class TabView extends View {
 
     private Paint mBackGroudPaint;
     private Paint mTextPaint;
+    private Paint mDividerPaint;
 
     public int mTextSelectedColor = Color.parseColor("#00FF00"); //选中的文字颜色
-    public int mBackgroudColor = (Color.parseColor("#1E2124")); //背景灰色
-    public int mTextColor = (Color.parseColor("#DCDCDC")); //文字颜色
+    public int mBackgroudColor = Color.parseColor("#1E2124"); //背景灰色
+    public int mTextColor = Color.parseColor("#DCDCDC"); //文字颜色
+    public int mDividerColor = Color.parseColor("#E2E1E3"); //分割线颜色
+    public int mUnderLineColor = Color.parseColor("#ffffff"); //指示器颜色
+
+    public float mUnderLineHeight; //指示器高度
+    public float mDividerWidth; //分割线的宽度
+    public float mDividerPadding; //分割线的宽度
+    public float mPaddingBottom; //距离底部的高度
+
     public float mTextSize;
 
     private int mWidth;
     private int mHeight;
 
-    private float mCellWidth;
+
+    public float mCellWidth;
     private int clickIndex = 0; //点击的item，默认为0
     private OnItemClickListener onItemClickListener;
     public boolean mClickable = true;
@@ -52,12 +64,11 @@ public class TabView extends View {
     private void initPaint() {
         mBackGroudPaint = new Paint();
         mTextPaint = new Paint();
-
+        mDividerPaint = new Paint();
 
     }
 
     private void initView() {
-        mWidth = getResources().getDisplayMetrics().widthPixels;
         mTextList.add("tab1");
         mTextList.add("tab2");
         mTextList.add("tab3");
@@ -66,9 +77,8 @@ public class TabView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mWidth = getResources().getDisplayMetrics().widthPixels;
+        mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
         setMeasuredDimension(mWidth, mHeight);
     }
@@ -82,6 +92,8 @@ public class TabView extends View {
             drawText(canvas, i, mTextList.get(i), mTextColor);
         }
         drawClickedText(canvas, clickIndex, mTextList.get(clickIndex), mTextSelectedColor);
+
+        drawDivider(canvas, mDividerColor, mDividerWidth);
     }
 
     /**
@@ -89,7 +101,7 @@ public class TabView extends View {
      */
     private void drawBackgroud(Canvas canvas, int color) {
         mBackGroudPaint.setColor(color);
-        canvas.drawRect(0, 0, mWidth, mHeight, mBackGroudPaint);
+        canvas.drawRect(0, 0, mWidth, mHeight - mPaddingBottom, mBackGroudPaint);
     }
 
     /**
@@ -113,6 +125,19 @@ public class TabView extends View {
         mTextPaint.setColor(textColor);
         mTextPaint.setTextSize(mTextSize);
         drawText(canvas, index, text, textColor);
+    }
+
+    /**
+     * 画出中间分割线
+     */
+    private void drawDivider(Canvas canvas, int dividerColor, float width) {
+        mDividerPaint.setColor(dividerColor);
+        mDividerPaint.setStrokeWidth(width);
+        for (int i = 0; i < mTextList.size() - 1; i++) {
+            canvas.drawLine((i + 1) * mCellWidth, 0 + mDividerPadding, (i + 1) * mCellWidth, mHeight -
+                    mDividerPadding, mDividerPaint);
+        }
+
     }
 
 

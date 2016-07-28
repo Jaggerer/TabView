@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,6 +27,8 @@ public class WeexTabLayout extends LinearLayout {
     int mStates = STOP;
     TabViewAnim mTabViewAnim;
     TabClickListener mTabClickListener;
+    private int underLineColor;
+    private float underLineHeight;
 
     public WeexTabLayout(Context context) {
         this(context, null);
@@ -49,14 +53,42 @@ public class WeexTabLayout extends LinearLayout {
                     ("#00FF00"));
             int backgroundColor = a.getColor(R.styleable.WeexTabLayout_backgroud_color, Color.parseColor("#1E2124"));
             float textSize = a.getDimension(R.styleable.WeexTabLayout_text_size, ScreenUtil.sp2px(getContext(), 12));
+            int dividerColor = a.getColor(R.styleable.WeexTabLayout_divider_color, Color.TRANSPARENT);
+            underLineColor = a.getColor(R.styleable.WeexTabLayout_underline_color, Color.RED);
+            float dividerWidth = a.getDimension(R.styleable.WeexTabLayout_divider_width, ScreenUtil.dip2px
+                    (getContext(), 0));
+            float dividerPadding = a.getDimension(R.styleable.WeexTabLayout_divider_padding, ScreenUtil.dip2px
+                    (getContext(), 0));
+            float paddingBottom = a.getDimension(R.styleable.WeexTabLayout_padding_bottom, ScreenUtil.dip2px
+                    (getContext(), 0));
+            underLineHeight = a.getDimension(R.styleable.WeexTabLayout_underline_height, ScreenUtil.dip2px
+                    (getContext(), 2));
+
             mTabView.mTextColor = textColor;
             mTabView.mTextSelectedColor = textSelectColor;
             mTabView.mBackgroudColor = backgroundColor;
             mTabView.mTextSize = textSize;
+
+            mTabView.mDividerColor = dividerColor;
+            mTabView.mDividerWidth = dividerWidth;
+            mTabView.mDividerPadding = dividerPadding;
+            mTabView.mUnderLineColor = underLineColor;
+            mTabView.mUnderLineHeight = underLineHeight;
+            mTabView.mPaddingBottom = paddingBottom;
         } finally {
             a.recycle();
             mTabView.invalidate();
         }
+    }
+
+
+    private void setDefaultIndicator() {
+        View view = new View(getContext());
+        view.setBackgroundColor(underLineColor);
+        LayoutParams layoutParams = new LayoutParams((int) mWidth, (int) underLineHeight);
+        layoutParams.gravity = Gravity.BOTTOM;
+        view.setLayoutParams(layoutParams);
+        addIndicator(view);
     }
 
     private void initView() {
@@ -94,6 +126,7 @@ public class WeexTabLayout extends LinearLayout {
                 mStates = MOVING;
                 mLp.leftMargin = Math.round((Float) animation.getAnimatedValue());
                 mLineView.setLayoutParams(mLp);
+                Log.d("tagtagtag", "getAnimatedFraction" + animation.getAnimatedFraction());
                 if ((Float) animation.getAnimatedValue() == endValue) {
                     mStates = STOP;
                     mTabView.mClickable = true;
@@ -109,11 +142,22 @@ public class WeexTabLayout extends LinearLayout {
     /**
      * 传入要添加的view
      */
-    public void addLineView(View lineView) {
+    public void addIndicator(View lineView) {
         this.mLineView = lineView;
         initLineView();
     }
 
+    public void setClickIndex(int index) {
+        mTabView.setClickIndex(index);
+        if (mTabViewAnim == null) {
+            setDefaultAnim(index);
+        } else {
+            mTabViewAnim.setTabViewAnim(mLp.leftMargin, mWidth / 2 - mLineView.getWidth() / 2 + index *
+                    mWidth, mLineView);
+        }
+
+        mTabView.invalidate();
+    }
 
     private void initLineView() {
         mLp = (LayoutParams) mLineView.getLayoutParams();
@@ -123,9 +167,17 @@ public class WeexTabLayout extends LinearLayout {
         invalidate();
     }
 
-    public void setTextList(List<String> list) {
-        mTabView.setTextList(list);
-        mWidth = getResources().getDisplayMetrics().widthPixels / mTabView.getCount();
+    public void setTextList(final List<String> list) {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mTabView.setTextList(list);
+                mWidth = mTabView.mCellWidth;
+                if (mLineView == null) {
+                    setDefaultIndicator();
+                }
+            }
+        });
     }
 
 
