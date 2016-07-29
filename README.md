@@ -1,6 +1,15 @@
 #WeexTabLayout
+include WeexTabLayout and WeexVpTabLayout
 ##DEMO
-![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/1.gif?raw=true)
+
+- WeexTabLayout
+
+![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/show.gif?raw=true)
+
+- WeexVpTabLayout
+ 
+
+![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/vpdemo.gif?raw=true)
 
 ##Attributes
 
@@ -14,26 +23,17 @@
 
 ##Import
 
-
-Step 1. Add it in your project's build.gradle at the end of repositories:
-
-```
-repositories {
-    maven {
-            url 'https://dl.bintray.com/hentaii/maven'
-    }
-}
-```
-
-Step 2. Add the dependency:
+ Add the dependency:
 
 ```
 dependencies {
-  compile 'com.wallstreetcn.weex:WeexTabLayout:1.0.1'
+  compile 'com.wallstreetcn.weex:WeexTabLayout:1.1.2'
 }
 ```
 
 ##Usage
+
+- usage of WeexTabLayout
 
 Define your WeexTabLayout under your xml :
 ```
@@ -95,4 +95,24 @@ you can also set your own animator :
             }
         });
 ```
+
+- usage of WeexVpTabLayout
+ 
+setViewPager on WeexVpLayout
+
+```
+mTlVp.setViewPager(mViewPager);
+```
+
+setOnTabClickListener to switch page
+
+```
+mTlVp.setOnTabClickListener(new WeexTabLayout.TabClickListener() {
+            @Override
+            public void onTabClick(int index) {
+                mViewPager.setCurrentItem(index);
+            }
+        });
+```
+
 
