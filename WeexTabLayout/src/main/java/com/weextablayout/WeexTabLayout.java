@@ -24,7 +24,7 @@ public class WeexTabLayout extends LinearLayout {
     LayoutParams mLp;
     public static final int STOP = 0;
     public static final int MOVING = 1;
-    int mStates = STOP;
+    private int mStates = STOP;
     TabViewAnim mTabViewAnim;
     TabClickListener mTabClickListener;
     private int underLineColor;
@@ -126,7 +126,6 @@ public class WeexTabLayout extends LinearLayout {
                 mStates = MOVING;
                 mLp.leftMargin = Math.round((Float) animation.getAnimatedValue());
                 mLineView.setLayoutParams(mLp);
-                Log.d("tagtagtag", "getAnimatedFraction" + animation.getAnimatedFraction());
                 if ((Float) animation.getAnimatedValue() == endValue) {
                     mStates = STOP;
                     mTabView.mClickable = true;

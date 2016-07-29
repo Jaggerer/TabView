@@ -1,5 +1,7 @@
 package com.horustablayout;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -66,6 +68,16 @@ public class MainVpActivity extends AppCompatActivity {
         mViewList.add(view3);
 
         mTlVp.setViewPager(mViewPager);
+
+        mTlVp.setVpTabLayoutAnimation(new WeexVpTabLayout.VpTabLayoutAnimation() {
+            @Override
+            public void setVpTabLayoutAnimation(int startValue, int endValue, View view) {
+                ValueAnimator animator = ValueAnimator.ofFloat(startValue, endValue); // 设置位移动画
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 0.5f,1.0f);
+                mTlVp.setAnim(animator);
+                mTlVp.setObjectAnim(objectAnimator);
+            }
+        });
 
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
