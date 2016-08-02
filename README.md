@@ -1,15 +1,16 @@
 #WeexTabLayout
 include WeexTabLayout and WeexVpTabLayout
+
+- you can add your own Indicator
+- when using WeexVpTabLayout,you can add a serious ObjectAnimator
+
 ##DEMO
 
-- WeexTabLayout
+
 
 ![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/show.gif?raw=true)
 
-- WeexVpTabLayout
- 
 
-![image](https://github.com/Hentaii/TabView/blob/master/app/src/main/res/drawable/vpdemo.gif?raw=true)
 
 ##Attributes
 
@@ -20,6 +21,11 @@ include WeexTabLayout and WeexVpTabLayout
 | text_selected_color|   color| set tab selected text color |
 | backgroud_color|   color| set tab background color |
 | text_size|   dimension| set tab text size |
+| divider_color|   color| set divider color |
+| divider_width|   dimension| set divider width |
+| divider_padding|   dimension| set divider padding|
+| underline_color|   color| set default indicator color |
+| padding_bottom|   dimension| set  indicator padding bottom |
 
 ##Import
 
@@ -27,13 +33,13 @@ include WeexTabLayout and WeexVpTabLayout
 
 ```
 dependencies {
-  compile 'com.wallstreetcn.weex:WeexTabLayout:1.1.2'
+  compile 'com.wallstreetcn.weex:WeexTabLayout:1.2.5'
 }
 ```
 
 ##Usage
 
-- usage of WeexTabLayout
+**- usage of WeexTabLayout**
 
 Define your WeexTabLayout under your xml :
 ```
@@ -96,7 +102,7 @@ you can also set your own animator :
         });
 ```
 
-- usage of WeexVpTabLayout
+- **usage of WeexVpTabLayout**
  
 setViewPager on WeexVpLayout
 
@@ -114,5 +120,20 @@ mTlVp.setOnTabClickListener(new WeexTabLayout.TabClickListener() {
             }
         });
 ```
+setVpTabLayoutAnimation when scrolling
+```
+mTlVp.setVpTabLayoutAnimation(new WeexVpTabLayout.VpTabLayoutAnimation() {
+            @Override
+            public void setVpTabLayoutAnimation(int startValue, int endValue, View view) {
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 1.5f, 1.0f);
+                ObjectAnimator AlphaAnimator = ObjectAnimator.ofInt(view, "backgroundColor", Color.BLUE,
+                        Color.CYAN);
+                mTlVp.addObjectAnim(objectAnimator);
+                mTlVp.addObjectAnim(AlphaAnimator);
+            }
+        });
+```
+
+
 
 
