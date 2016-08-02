@@ -74,8 +74,7 @@ public class MainVpActivity extends AppCompatActivity {
             public void setVpTabLayoutAnimation(int startValue, int endValue, View view) {
                 ValueAnimator animator = ValueAnimator.ofFloat(startValue, endValue); // 设置位移动画
                 ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 0.5f,1.0f);
-                mTlVp.setAnim(animator);
-                mTlVp.setObjectAnim(objectAnimator);
+                mTlVp.addObjectAnim(objectAnimator);
             }
         });
 

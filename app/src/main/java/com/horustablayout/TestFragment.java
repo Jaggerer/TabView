@@ -3,6 +3,7 @@ package com.horustablayout;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -83,10 +84,11 @@ public class TestFragment extends Fragment {
         mTlVp.setVpTabLayoutAnimation(new WeexVpTabLayout.VpTabLayoutAnimation() {
             @Override
             public void setVpTabLayoutAnimation(int startValue, int endValue, View view) {
-                ValueAnimator animator = ValueAnimator.ofFloat(startValue, endValue); // 设置位移动画
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 1.5f,1.0f);
-                mTlVp.setAnim(animator);
-                mTlVp.setObjectAnim(objectAnimator);
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 1.5f, 1.0f);
+                ObjectAnimator AlphaAnimator = ObjectAnimator.ofInt(view, "backgroundColor", Color.BLUE,
+                        Color.CYAN);
+                mTlVp.addObjectAnim(objectAnimator);
+                mTlVp.addObjectAnim(AlphaAnimator);
             }
         });
 

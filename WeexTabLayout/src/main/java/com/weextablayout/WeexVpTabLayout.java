@@ -5,9 +5,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,12 +16,11 @@ import java.util.List;
 public class WeexVpTabLayout extends WeexTabLayout implements ViewPager.OnPageChangeListener {
     private ViewPager mViewPager;
     private float mStartValue;
-    private ValueAnimator anim;
     private int mStates = STOP;
     private int lastOffSet;
     private int lastPosition;
     private VpTabLayoutAnimation mVpTabLayoutAnimation;
-    private ObjectAnimator mObjectAnim;
+    private List<ObjectAnimator> mObjectAnimList = new ArrayList<>();
 
     public WeexVpTabLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -75,33 +74,37 @@ public class WeexVpTabLayout extends WeexTabLayout implements ViewPager.OnPageCh
 
             if (mStates == MOVING) {
                 if (mVpTabLayoutAnimation != null) {
-                    //// TODO: 2016/7/29 将anim更换为list
                     mVpTabLayoutAnimation.setVpTabLayoutAnimation(startValue, endValue, mLineView);
-                    if (anim != null) {
-                        anim.setDuration(200);
-                        if (lastPosition - position != 0) {
-                            anim.setCurrentPlayTime((long) (anim.getDuration()));
-                        } else if (positionOffsetPixels - lastOffSet < 0) {
-                            anim.setCurrentPlayTime((long) (anim.getDuration() * (1 - positionOffset)));
-                        } else {
-                            anim.setCurrentPlayTime((long) (anim.getDuration() * positionOffset));
-                        }
-                        anim.setTarget(mViewPager);
-                        mLp.leftMargin = Math.round((Float) anim.getAnimatedValue());
-                        Log.d("leftMargin", " leftMargin --> " + mLp.leftMargin);
-                        mLineView.setLayoutParams(mLp);
+                    ValueAnimator anim = ValueAnimator.ofFloat(startValue, endValue); // 设置位移动画
+                    anim.setDuration(200);
+                    if (lastPosition - position != 0) {
+                        anim.setCurrentPlayTime((long) (anim.getDuration()));
+                    } else if (positionOffsetPixels - lastOffSet < 0) {
+                        anim.setCurrentPlayTime((long) (anim.getDuration() * (1 - positionOffset)));
+                    } else {
+                        anim.setCurrentPlayTime((long) (anim.getDuration() * positionOffset));
                     }
+                    anim.setTarget(mViewPager);
+                    mLp.leftMargin = Math.round((Float) anim.getAnimatedValue());
+                    mLineView.setLayoutParams(mLp);
 
-                    if (mObjectAnim != null) {
-                        mObjectAnim.setDuration(200);
-                        if (lastPosition - position != 0) {
-                            mObjectAnim.setCurrentPlayTime((long) (mObjectAnim.getDuration()));
-                        } else if (positionOffsetPixels - lastOffSet < 0) {
-                            mObjectAnim.setCurrentPlayTime((long) (mObjectAnim.getDuration() * (1 - positionOffset)));
-                        } else {
-                            mObjectAnim.setCurrentPlayTime((long) (mObjectAnim.getDuration() * positionOffset));
+
+                    if (mObjectAnimList.size() != 0) {
+                        for (int i = 0; i < mObjectAnimList.size(); i++) {
+                            ObjectAnimator objectAnimator = mObjectAnimList.get(i);
+                            objectAnimator.setDuration(200);
+                            if (lastPosition - position != 0) {
+                                objectAnimator.setCurrentPlayTime((long) (objectAnimator.getDuration()));
+                            } else if (positionOffsetPixels - lastOffSet < 0) {
+                                objectAnimator.setCurrentPlayTime((long) (objectAnimator.getDuration() * (1 -
+                                        positionOffset)));
+                            } else {
+                                objectAnimator.setCurrentPlayTime((long) (objectAnimator.getDuration() *
+                                        positionOffset));
+                            }
+                            objectAnimator.setTarget(mViewPager);
                         }
-                        mObjectAnim.setTarget(mViewPager);
+
                     }
                 }
             }
@@ -111,12 +114,9 @@ public class WeexVpTabLayout extends WeexTabLayout implements ViewPager.OnPageCh
         }
     }
 
-    public void setAnim(ValueAnimator anim) {
-        this.anim = anim;
-    }
 
-    public void setObjectAnim(ObjectAnimator objectAnim) {
-        mObjectAnim = objectAnim;
+    public void addObjectAnim(ObjectAnimator objectAnim) {
+        mObjectAnimList.add(objectAnim);
     }
 
     @Override
