@@ -23,10 +23,6 @@ public class WeexVpTabLayout extends WeexTabLayout implements ViewPager.OnPageCh
     private VpTabLayoutAnimation mVpTabLayoutAnimation;
     private ObjectAnimator mObjectAnim;
 
-    public WeexVpTabLayout(Context context) {
-        this(context, null);
-    }
-
     public WeexVpTabLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -79,7 +75,7 @@ public class WeexVpTabLayout extends WeexTabLayout implements ViewPager.OnPageCh
 
             if (mStates == MOVING) {
                 if (mVpTabLayoutAnimation != null) {
-                    //// TODO: 2016/7/29 将anim更换为list，其中，一定要有一个控制margin属性的
+                    //// TODO: 2016/7/29 将anim更换为list
                     mVpTabLayoutAnimation.setVpTabLayoutAnimation(startValue, endValue, mLineView);
                     if (anim != null) {
                         anim.setDuration(200);

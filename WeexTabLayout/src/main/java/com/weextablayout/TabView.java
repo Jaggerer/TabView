@@ -177,6 +177,9 @@ public class TabView extends View {
     public void setTextList(List<String> textList) {
         mTextList.clear();
         mTextList.addAll(textList);
+    }
+
+    public void measureCellWidth() {
         mCellWidth = mWidth / mTextList.size();
         invalidate();
     }

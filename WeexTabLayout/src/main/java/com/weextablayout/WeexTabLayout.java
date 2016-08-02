@@ -30,11 +30,6 @@ public class WeexTabLayout extends LinearLayout {
     private int underLineColor;
     private float underLineHeight;
 
-    public WeexTabLayout(Context context) {
-        this(context, null);
-
-    }
-
     public WeexTabLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -167,10 +162,11 @@ public class WeexTabLayout extends LinearLayout {
     }
 
     public void setTextList(final List<String> list) {
+        mTabView.setTextList(list);
         post(new Runnable() {
             @Override
             public void run() {
-                mTabView.setTextList(list);
+                mTabView.measureCellWidth();  //设置完list列表后必须重新计算格子宽度
                 mWidth = mTabView.mCellWidth;
                 if (mLineView == null) {
                     setDefaultIndicator();
