@@ -155,10 +155,15 @@ public class WeexTabLayout extends LinearLayout {
 
     private void initLineView() {
         mLp = (LayoutParams) mLineView.getLayoutParams();
-        mLp.leftMargin = (int) (mWidth / 2 - mLp.width / 2);
-        mLineView.setLayoutParams(mLp);
-        mlltIndicator.addView(mLineView);
-        invalidate();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mLp.leftMargin = (int) (mWidth / 2 - mLp.width / 2);
+                mLineView.setLayoutParams(mLp);
+                mlltIndicator.addView(mLineView);
+                invalidate();
+            }
+        });
     }
 
     public void setTextList(final List<String> list) {
